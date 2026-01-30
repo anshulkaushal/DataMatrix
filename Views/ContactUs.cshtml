@@ -1,0 +1,134 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.ContactUs>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+
+            // Contact Section
+    var label = Model.Value<string>("label");
+    var shortHeading = Model.Value<string>("shortHeading");
+
+      // Contact Information Section
+    var contactInfoHeading = Model.Value<string>("contactInfoHeading");
+        var contactInfo = Model.Value<BlockListModel>("contactInfo");
+
+
+    // Form Info Section
+      var formInfo = Model.Value<string>("formInfo");
+}
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>@label</h2>
+        <p>@shortHeading</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-5">
+            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+            @Html.Raw(contactInfoHeading.ToString().Replace("<p>", "").Replace("</p>", ""))
+            <br>
+       @if (contactInfo != null && contactInfo.Any())
+       {   
+         @foreach (var item in contactInfo)
+         {
+         var content = item.Content;
+         var icon = content.Value<string>("icon");
+         var infoHeading = content.Value<string>("heading");
+         var shortDescription = content.Value<string>("shortDescription");
+              <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box">
+                  <i class="@icon"></i>
+                </div>
+                <div class="content">
+                  <h4>@infoHeading</h4>
+                  <p>@shortDescription</p>
+                </div>
+              </div>
+               }
+            }
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
+                @Html.Raw(formInfo.ToString().Replace("<p>", "").Replace("</p>", ""))    
+                
+                @using (Html.BeginUmbracoForm("SubmitForm", "Form", FormMethod.Post, new { id = "contactForm" }))
+                {
+                <div class="row gy-4">
+                  <div class="col-md-6">
+                    <input type="text" name="fullName" class="form-control" placeholder="Your Name" required="">
+                  </div>
+
+                  <div class="col-md-6 ">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                  </div>
+
+                  <div class="col-12">
+                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                  </div>
+
+                  <div class="col-12">
+                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <button type="submit"  class="btn">Send Message</button>
+                  </div>
+                  <div id="formSuccessMsg" class="alert alert-success mt-3" style="display:none;"></div>
+                  <div id="formErrorMsg" class="alert alert-danger mt-3" style="display:none;"></div>
+
+                </div>
+              }
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+<script>
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // 🚫 STOP normal form submit
+
+    const form = this;
+    const formData = new FormData(form);
+
+    document.getElementById("formSuccessMsg").style.display = "none";
+    document.getElementById("formErrorMsg").style.display = "none";
+
+    fetch(form.action, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("formSuccessMsg").innerText = data.message;
+            document.getElementById("formSuccessMsg").style.display = "block";
+            form.reset(); // ✅ clear fields
+        } else {
+            document.getElementById("formErrorMsg").innerText = data.message;
+            document.getElementById("formErrorMsg").style.display = "block";
+        }
+    })
+    .catch(() => {
+        document.getElementById("formErrorMsg").innerText =
+            "Something went wrong. Please try again.";
+        document.getElementById("formErrorMsg").style.display = "block";
+    });
+});
+</script>

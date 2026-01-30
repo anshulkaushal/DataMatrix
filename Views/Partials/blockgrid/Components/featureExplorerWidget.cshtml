@@ -1,0 +1,63 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    var featureHeading = Model.Content.Value<string>("featureHeading");
+    var featureSubHeading = Model.Content.Value<string>("featureSubHeading");  
+    var cardItem = Model.Content.Value<IEnumerable<Umbraco.Cms.Core.Models.Blocks.BlockListItem>>("cardItem");
+    var ctaText = Model.Content.Value<string>("ctaText");
+    var ctaLinks = Model.Content.Value<IEnumerable<Link>>("ctaLink");
+    var ctaLink = ctaLinks?.FirstOrDefault();
+    var ctaDescription = Model.Content.Value<string>("ctaDescription");   
+}
+
+<!-- Services Section -->
+<section id="services" class="section services-home">
+  <div class="container" data-aos="fade-up">
+
+    <!-- Headline + Subtext -->
+    <div class="section-title text-center mb-5">
+      <h2>@featureHeading</h2>
+      <p class="mt-3">
+       @featureSubHeading
+      </p>
+    </div>
+
+    <!-- Service Cards Grid -->
+    <div class="row justify-content-center">
+            @if (cardItem != null && cardItem.Any())
+            {
+                @foreach (var item in cardItem)
+                 {
+                    var content = item.Content;
+                    var icon = content.Value<string>("icon");
+                    var heading = content.Value<string>("heading");
+                    var shortDescription = content.Value<string>("shortDescription");
+
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon"><i class="@icon"></i></div>
+          <h3>@heading</h3>
+          <p>@shortDescription</p>
+        </div>
+      </div>
+        }
+   }
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-5" data-aos="fade-up">
+    @if (ctaLink != null && !string.IsNullOrWhiteSpace(ctaText))
+    {
+     <a href="@ctaLink.Url" class="btn">@ctaText</a>
+    }
+      <p class="mt-2 small text-muted">
+       @ctaDescription
+      </p>
+    </div>
+
+  </div>
+</section>

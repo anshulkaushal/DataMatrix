@@ -1,0 +1,33 @@
+﻿  @using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    var heading = Model.Content.Value<string>("heading");
+    var subHeading = Model.Content.Value<string>("subHeading");  
+    var cardItem = Model.Content.Value<IEnumerable<Umbraco.Cms.Core.Models.Blocks.BlockListItem>>("cardItem");
+
+    var cTA1Text = Model.Content.Value<string>("cTA1Text");
+    var cTA1Links = Model.Content.Value<IEnumerable<Link>>("cTA1Link");
+    var cTA1Link = cTA1Links?.FirstOrDefault();  
+   
+    var cTA2Text = Model.Content.Value<string>("cTA2Text");
+    var cTA2Links = Model.Content.Value<IEnumerable<Link>>("cTA2Link");
+    var cTA2Link = cTA2Links?.FirstOrDefault(); 
+}
+  
+   <!-- FINAL CTA Section -->
+   <section class="services-final final-cta my-5" data-aos="zoom-in">
+     <div class="container">
+     <h2 class="text-white">@heading</h2>
+     <p class="small">@subHeading</p>
+     <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+       <a class="btn" href="@cTA1Link.Url">@cTA1Text</a>
+       <!-- <a class="btn btn-outline-light btn-lg" href="#">Download Service Deck</a> -->
+       <a class="btn " href="@cTA2Link.Url">@cTA2Text</a>
+     </div>
+     </div>
+   </section>
+

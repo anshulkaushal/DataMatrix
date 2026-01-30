@@ -1,0 +1,202 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Home>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+
+        // Hero Section
+    var heading = Model.Value<string>("heading");
+    var description = Model.Value<string>("description");
+    var buttonText = Model.Value<string>("buttonText");
+    var buttonLinks = Model.Value<IEnumerable<Link>>("buttonLink");
+    var buttonLink = buttonLinks?.FirstOrDefault();
+
+        var ctaText = Model.Value<string>("ctaText");
+    var ctaLinks = Model.Value<IEnumerable<Link>>("ctaLink");
+    var ctaLink = ctaLinks?.FirstOrDefault();
+
+    var backgroundImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("backgroundImage");
+
+
+            // Technology & Tools Section
+    var toolHeading = Model.Value<string>("toolHeading");
+    var toolSubHeading = Model.Value<string>("toolSubHeading");
+    var toolCards = Model.Value<BlockListModel>("toolCards");
+
+                // About Us Section
+    var aboutUsLabel = Model.Value<string>("aboutUsLabel");
+    var aboutDetails = Model.Value<string>("aboutDetails");
+   var aboutUsContent = Model.Value<BlockListModel>("aboutUsContent");
+    var smallSideImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("smallSideImage");
+    var bigSideImage =  Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("bigSideImage");
+
+    // CAT section
+        var ctaHeading = Model.Value<string>("ctaHeading");
+    var subHeading = Model.Value<string>("subHeading");
+    var ctaButtonText = Model.Value<string>("ctaButtonText");
+    var ctaButtonLinks = Model.Value<IEnumerable<Link>>("ctaButtonLink");
+    var ctaButtonLink = ctaButtonLinks?.FirstOrDefault();
+}
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section" style="@(backgroundImage != null 
+                 ? $"background-image:url({backgroundImage.Url()});" 
+                 : "")">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+              <h1 class="mb-4">
+               @heading
+              </h1>
+
+              <p class="mb-4 mb-md-5">
+               @description
+              </p>
+
+              <div class="hero-buttons">
+                  @if(buttonLink != null)
+                  {
+                    <a href="@buttonLink.Url" class="btn btn-primary me-0 me-sm-2 mx-1">@buttonText</a>
+
+                    <a href="@ctaLink.Url" class="btn btn-primary btn-outline me-0 me-sm-2 mx-1">@ctaText</a>
+                  }
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-lg-6">
+            <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+              <img src="assets/img/tranparent dashboard 2.png" alt="Hero Image" class="img-fluid">
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+    <!-- Services Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "serviceCard") 
+
+    <!-- Features Section -->
+    <section id="technologies" class="features section features-cards">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>@toolHeading</h2>
+        <p>We build scalable and future-ready data platforms using today’s most trusted tools:</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row gy-4">
+       @if (toolCards != null && toolCards.Any())
+       {   
+         @foreach (var item in toolCards)
+         {
+         var content = item.Content;
+         var icon = content.Value<string>("icon");
+         var cardHeading = content.Value<string>("heading");
+         var shortDescription = content.Value<string>("shortDescription");
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="feature-box blue">
+              <i class="@icon"></i>
+              <h4>@cardHeading</h4>
+              <p>@shortDescription</p>
+            </div>
+          </div><!-- End Feature Borx-->
+          }
+       }
+        </div>
+      </div>
+    </section>
+    <!-- Features Cards Section -->
+
+
+    <!-- Features 2 Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "industriesCard") 
+    <!-- /Features 2 Section -->
+
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>@aboutUsLabel</h2>
+        <p></p>
+      </div><!-- End Section Title -->
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 start justify-content-between">
+
+          <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
+               @Html.Raw(aboutDetails.ToString().Replace("<p>", "").Replace("</p>", "")) 
+               <br>
+              <!-- Feature Grid -->
+    <div class="row g-4">
+
+      @if (aboutUsContent != null && aboutUsContent.Any())
+       {   
+         @foreach (var item in aboutUsContent)
+         {
+         var content = item.Content;
+         var detailDescription = content.Value<string>("detailDescription");
+
+        <div class="col-md-6">
+            <div class="about-feature-item">
+                <div class="feature-line"></div>
+               @Html.Raw(detailDescription.ToString().Replace("<p>", "").Replace("</p>", "")) 
+            </div>
+        </div>
+         }
+       }    
+
+    </div>                        
+    </div>                        
+
+          <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="image-wrapper">
+              <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
+                  @if(bigSideImage != null)
+                  {
+                   <img src="@bigSideImage.Url()" alt="Business Meeting" class="img-fluid main-image rounded-4">
+                  }
+                  @if(smallSideImage != null)
+                  {
+                   <img src="@smallSideImage.Url()" alt="Team Discussion" class="img-fluid small-image rounded-4">
+                  }
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+
+    <!-- Call To Action 2 Section -->
+    <section id="call-to-action-2" class="call-to-action-2 section dark-background">
+
+      <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-10">
+            <div class="text-center">
+              <h3>@ctaHeading</h3>
+              <p class="about-meta">@subHeading</p>
+
+             @if(ctaButtonLink != null || ctaButtonText != null )
+             {
+              <a class="cta-btn btn" href="@ctaButtonLink.Url">@ctaButtonText</a>
+             }
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Call To Action 2 Section -->
+
+

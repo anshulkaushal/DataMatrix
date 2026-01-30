@@ -1,0 +1,164 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.AboutUs>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+
+      // Hero Section
+    var headingDetails = Model.Value<string>("headingDetails");
+    var sideImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("sideImage");
+
+
+    // whatSetHeading
+     var whatSetHeading = Model.Value<string>("whatSetHeading");
+     var shortPoints = Model.Value<string>("shortPoints");
+      var whatSetImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("whatSetImage");
+
+       // Partnerships
+     var partnershipHeading = Model.Value<string>("partnershipHeading");
+     var partnershipDescription = Model.Value<string>("partnershipDescription");
+
+     //Our Team 
+         var ourTeamHeading = Model.Value<string>("ourTeamHeading");
+     var ourTeamDescriptionTop = Model.Value<string>("ourTeamDescriptionTop");
+     var ourTeamDescriptionBottom = Model.Value<string>("ourTeamDescriptionBottom");
+      var teamProfile = Model.Value<BlockListModel>("teamProfile");
+
+           //Our Team 
+         var ourCultureHead = Model.Value<string>("ourCultureHead");
+     var ourCultureDes = Model.Value<string>("ourCultureDes");
+      var ourCultureImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("ourCultureImage");
+}
+
+
+<!-- HERO SECTION -->
+<section id="hero" class="service-hero hero section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 service-hero-left">
+        @Html.Raw(headingDetails.ToString().Replace("<p>", "").Replace("</p>", "")) 
+      
+      </div>
+      <div class="col-md-6 text-center service-hero-right">
+        <img src="@sideImage.Url()" class="img-fluid" alt="Data Pipeline">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CAPABILITIES -->
+<section class="service-capabilities">
+  <div class="container text-center">
+    
+    <div class="row g-4 align-items-center">
+      <div class="col-md-6">
+        <div class="capability-card">
+        <h2>@whatSetHeading</h2>
+        <br>
+        @Html.Raw(shortPoints.ToString().Replace("<p>", "").Replace("</p>", ""))       
+        </div>
+      </div>
+        <div class="col-md-6 text-center">
+        @if(whatSetImage != null)
+      {
+        <img src="@whatSetImage.Url()" class="img-fluid" alt="Data Pipeline">
+      }
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Partnership Section -->
+<section class="service-why-choose">
+  <div class="container text-center">
+    <h2 class="mb-5">@partnershipHeading</h2>
+    <div class="row justify-content-center">
+      <div class=" col-lg-10 col-sm-12">
+           @if(partnershipDescription != null)
+          {
+        @Html.Raw(partnershipDescription.ToString().Replace("<p>", "").Replace("</p>", "")) 
+          }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Team Section -->
+<section class="service-profile">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Right Content -->
+      <div class="col-md-12 text-center">
+          <h3>@ourTeamHeading</h3>
+          <div class="team-section">
+  
+     <p>@Html.Raw(ourTeamDescriptionTop.ToString().Replace("<p>", "").Replace("</p>", ""))</p>
+
+  <div class="team-profiles">
+       @if (teamProfile != null && teamProfile.Any())
+       {   
+         @foreach (var item in teamProfile)
+         {
+         var content = item.Content;
+         var image = content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("image");
+         var designation = content.Value<string>("designation");
+
+        <div class="team-profile">
+          <img src="@image.Url()" alt="profile" />
+          <p class="designation">@designation</p>
+        </div>
+         }
+       }
+    @* <div class="team-profile">
+      <img src="/img/testimonials/profile2.png" alt="Data Head ANZ" />
+      <p class="designation">Data Head – Australia &amp; New Zealand</p>
+    </div>
+
+    <div class="team-profile">
+      <img src="/img/testimonials/profile_2.png" alt="Marketing Head" />
+      <p class="designation">Marketing Head</p>
+    </div>
+
+    <div class="team-profile">
+      <img src="/img/testimonials/profile4.jpg" alt="New Zealand Head" />
+      <p class="designation">New Zealand Head</p>
+    </div> *@
+
+     </div>
+    <p>@Html.Raw(ourTeamDescriptionBottom.ToString().Replace("<p>", "").Replace("</p>", ""))</p>
+      </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  
+<!-- Our Culture -->
+<section class="service-cta bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <h3>@ourCultureHead</h3>
+        @if(ourCultureDes != null)
+        {
+        @Html.Raw(ourCultureDes.ToString().Replace("<p>", "").Replace("</p>", ""))
+        }
+      </div>
+      <div class="col-md-6">
+      <div class="col-md-12 text-center service-hero-left mb-4 mb-md-0">
+     @if(ourCultureImage != null)
+     {
+      <img src="@ourCultureImage.Url()" class="img-fluid" alt="Data Pipeline">
+     }
+      </div>  
+      </div>
+    </div>
+  </div>
+</section>

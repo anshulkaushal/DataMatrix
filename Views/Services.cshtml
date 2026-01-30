@@ -1,0 +1,23 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Services>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+}
+
+   <!-- Hero Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "heroWidget") 
+
+   <!-- Services Snapshot Section -->
+    @await Html.GetBlockGridHtmlAsync(Model, "servicesSnapshotWidget") 
+
+
+    <!-- Media Content Section -->
+    @await Html.GetBlockGridHtmlAsync(Model, "splitMediaWidget") 
+
+
+    @await Html.GetBlockGridHtmlAsync(Model, "ctaBanner") 
+
+
+   
+

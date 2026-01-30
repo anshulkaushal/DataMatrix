@@ -1,0 +1,55 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    var heading = Model.Content.Value<string>("heading");
+    var subHeading = Model.Content.Value<string>("subHeading");  
+    var servicesSnapshotCard = Model.Content.Value<IEnumerable<Umbraco.Cms.Core.Models.Blocks.BlockListItem>>("servicesSnapshotCard");        
+}
+
+    <!-- QUICK SERVICES SNAPSHOT (3x3) -->
+    <section id="quick-snapshot" class="my-4" data-aos="fade-up">
+      <div class="container">
+      <h3>@heading</h3>
+      <p class="text-muted small">@subHeading</p>
+
+      <div class="row row-cols-1 row-cols-md-3  services-grid mt-2">
+        @if (servicesSnapshotCard != null && servicesSnapshotCard.Any())
+            {
+                @foreach (var cards in servicesSnapshotCard)
+                 {
+                    var content = cards.Content;
+                    var cardHeading = content.Value<string>("heading");
+                    var shortDescription = content.Value<string>("shortDescription");
+                    var icon = content.Value<string>("icon");
+                    var linkText = content.Value<string>("linkText");
+                    var linkUrls = content.Value<IEnumerable<Link>>("linkUrl");
+                    var linkUrl = linkUrls?.FirstOrDefault();
+
+              <!-- Card 1 -->
+              <div class="col mb-2">
+                <div class="svc-card h-100">
+                  <div class="svc-top">
+                    <div class="svc-icon"><i class="@icon"></i></div>
+                    <div>
+                      <div class="fw-semibold">@cardHeading</div>
+                      <div class="small text-muted">@shortDescription.</div>
+                    </div>
+                  </div>
+                  <div class="mt-auto text-end">
+                     @if (linkUrl != null && !string.IsNullOrWhiteSpace(linkUrl.Url) 
+                          && !string.IsNullOrWhiteSpace(linkText))
+                      {
+                      <a href="@linkUrl.Url" class="small">@linkText</a>
+                      }
+                   </div>
+                </div>
+               </div>
+              }
+      }        
+         </div>
+      </div>
+    </section>

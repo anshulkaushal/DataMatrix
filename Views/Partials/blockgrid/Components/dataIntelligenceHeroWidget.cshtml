@@ -1,0 +1,45 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+    var heading = Model.Content.Value<string>("heading");
+    var subHeading = Model.Content.Value<string>("subHeading");  
+    var cTA1Text = Model.Content.Value<string>("cTA1Text");
+        var cTA1Links = Model.Content.Value<IEnumerable<Link>>("cTA1Link");
+    var cTA1Link = cTA1Links?.FirstOrDefault();
+        var cTA2Text = Model.Content.Value<string>("cTA2Text");
+        var cTA2Links = Model.Content.Value<IEnumerable<Link>>("cTA2Link");
+    var cTA2Link = cTA2Links?.FirstOrDefault();
+    var sideImage = Model.Content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("sideImage");   
+}
+
+    <!-- HERO -->
+    <section  id="hero" class="service-hero hero section" data-aos="fade-up">
+      <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <h1>@heading</h1>
+          <p >@subHeading</p>
+          <div class="hero-cta mt-3 d-flex gap-2 flex-wrap">
+              @if(cTA1Link != null || cTA1Text != null )
+              {
+            <a class="btn btn-primary me-2 "             
+              href="@cTA1Link.Url">@cTA1Text</a>
+              }
+              @if(cTA2Link != null || cTA2Text != null)
+              {
+            <a class="btn btn-primary me-2" href="@cTA2Link.Url">@cTA2Text</a>
+              }
+          </div>
+        </div>
+        <div class="col-lg-5 text-center" data-aos="zoom-in">
+          <div class="hero-visual">
+              <img src="@sideImage.Url()" class="img-fluid" alt="Data Pipeline">
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
