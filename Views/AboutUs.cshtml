@@ -80,7 +80,7 @@
       <div class=" col-lg-10 col-sm-12">
            @if(partnershipDescription != null)
           {
-        @Html.Raw(partnershipDescription.ToString().Replace("<p>", "").Replace("</p>", "")) 
+           @Html.Raw(partnershipDescription.ToString().Replace("<p>", "").Replace("</p>", "")) 
           }
       </div>
     </div>
@@ -106,27 +106,16 @@
          var content = item.Content;
          var image = content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("image");
          var designation = content.Value<string>("designation");
+         var shortDescription = content.Value<string>("shortDescription");
 
         <div class="team-profile">
           <img src="@image.Url()" alt="profile" />
           <p class="designation">@designation</p>
+          <p class="shortDescription">@shortDescription</p>
+
         </div>
          }
        }
-    @* <div class="team-profile">
-      <img src="/img/testimonials/profile2.png" alt="Data Head ANZ" />
-      <p class="designation">Data Head – Australia &amp; New Zealand</p>
-    </div>
-
-    <div class="team-profile">
-      <img src="/img/testimonials/profile_2.png" alt="Marketing Head" />
-      <p class="designation">Marketing Head</p>
-    </div>
-
-    <div class="team-profile">
-      <img src="/img/testimonials/profile4.jpg" alt="New Zealand Head" />
-      <p class="designation">New Zealand Head</p>
-    </div> *@
 
      </div>
     <p>@Html.Raw(ourTeamDescriptionBottom.ToString().Replace("<p>", "").Replace("</p>", ""))</p>
