@@ -23,6 +23,7 @@
          var ourTeamHeading = Model.Value<string>("ourTeamHeading");
      var ourTeamDescriptionTop = Model.Value<string>("ourTeamDescriptionTop");
      var ourTeamDescriptionBottom = Model.Value<string>("ourTeamDescriptionBottom");
+      var founderProfile = Model.Value<BlockListModel>("founderProfile");
       var teamProfile = Model.Value<BlockListModel>("teamProfile");
 
            //Our Team 
@@ -98,6 +99,26 @@
   
      <p>@Html.Raw(ourTeamDescriptionTop.ToString().Replace("<p>", "").Replace("</p>", ""))</p>
 
+    <div class="team-profiles">
+       @if (founderProfile != null && founderProfile.Any())
+       {   
+         @foreach (var item in founderProfile)
+         {
+         var content = item.Content;
+         var image = content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("image");
+         var designation = content.Value<string>("designation");
+         var shortDescription = content.Value<string>("shortDescription");
+
+        <div class="team-profile">
+          <img src="@image.Url()" alt="profile" />
+          <p class="designation">@designation</p>
+          <p class="shortDescription" style="font-size: 12px;">@shortDescription</p>
+        </div>
+         }
+       }
+
+     </div>
+
   <div class="team-profiles">
        @if (teamProfile != null && teamProfile.Any())
        {   
@@ -111,8 +132,7 @@
         <div class="team-profile">
           <img src="@image.Url()" alt="profile" />
           <p class="designation">@designation</p>
-          <p class="shortDescription">@shortDescription</p>
-
+          <p class="shortDescription" style="font-size: 12px;">@shortDescription</p>
         </div>
          }
        }
