@@ -5,6 +5,12 @@
     <Nullable>enable</Nullable>
     <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
   </PropertyGroup>
+	<ItemGroup>
+		<Content Include="umbraco\Data\DataMatrix.sqlite.db">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.14.1" />
@@ -28,5 +34,10 @@
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
+
+	<Target Name="EnsureUmbracoFolders" AfterTargets="Publish">
+		<MakeDir Directories="$(PublishDir)wwwroot\media" />
+	</Target>
+
 
 </Project>
