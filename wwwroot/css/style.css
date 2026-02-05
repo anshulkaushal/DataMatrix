@@ -2154,11 +2154,11 @@ section,
 /* CTA FORM */
 .service-cta {
   padding: 80px 0;
-  background-color: #f3f9ff;
+  background-color: #ffff;
 }
 .service-profile {
     padding: 80px 0;
-    background-color: #f3f9ff;
+    background-color: #f8f9fa;
 }
 .service-cta form {
   padding: 30px;
@@ -3411,6 +3411,7 @@ button:focus {
     margin: 48px 0 32px;
 }
 
+
 .team-profile {
     text-align: center;
     max-width: 220px;
@@ -3423,26 +3424,36 @@ button:focus {
         object-fit: cover;
         border: 3px solid #e5e7eb;
         background: #fff;
+        margin-bottom: 15px;
     }
 
     .team-profile .designation {
+        display: flex;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid #000;
+        border-radius: 3px;
+        background-color: #f3f4f6;
+        margin: 10px 0 15px;
+        justify-content: center;
+    }
+
+
+/*    .team-profile .designation {
         margin-top: 14px;
         font-size: 16px;
         line-height: 1.45;
         font-weight: 500;
         color: #1f2937;
         height: 40px;
-    }
+    }*/
 
 @media (max-width: 992px) {
     .team-profiles {
         flex-wrap: wrap;
         gap: 40px;
         justify-content: flex-start;
-    }
-
-    .team-profile {
-        width: 45%;
     }
 }
 
@@ -3519,4 +3530,209 @@ button:focus {
 .spacer-xsmall {
     width: 100%;
     padding-top: 1rem;
+}
+
+.profile-img-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+    .profile-img-wrapper img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e5e7eb;
+    }
+
+/* LinkedIn circle icon */
+.linkedin-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 45px;
+    height: 45px;
+    background-color: #0a66c2; /* LinkedIn blue */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    border: 3px solid #fff;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+    .linkedin-icon:hover {
+        background-color: #004182;
+        transform: scale(1.05);
+        color: #ffffff;
+    }
+
+
+/*team profile page*/
+.profile-details-section {
+    padding: 80px 0;
+    background: #f4f7fb;
+    font-family: 'Segoe UI', sans-serif;
+    margin-top: 40px;
+}
+
+
+/* LEFT SIDEBAR */
+.profile-sidebar {
+    text-align: center;
+}
+
+.profile-photo {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profile-name {
+    color: #0A66C2;
+    margin-bottom: 5px;
+}
+
+.profile-title {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Branch Info */
+.branch-info h4 {
+    margin-bottom: 10px;
+    color: #0A66C2;
+}
+
+.branch-info p {
+    font-size: 14px;
+    color: #444;
+}
+
+/* RIGHT CONTENT */
+
+
+    .profile-content p {
+        margin-bottom: 20px;
+        line-height: 1.7;
+        color: #444;
+    }
+
+    .profile-content h3 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        color: #0A66C2;
+    }
+
+.profile-services {
+    columns: 2;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+    .profile-services li {
+        margin-bottom: 8px;
+    }
+
+.closing-text {
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .profile-container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+    }
+
+    .profile-services {
+        columns: 1;
+    }
+}
+
+
+.team-profile h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    margin-top: 35px;
+/*    margin-right: 100px;*/
+}
+
+    .team-profile h2:after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 3px;
+        background: #2d465e;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+.profile-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+}
+
+/* Button Container */
+.icon-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    color: #222;
+    transition: 0.3s ease;
+}
+
+/* Round Icon */
+.icon-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    font-size: 18px;
+    color: #fff;
+}
+
+/* Color Variations */
+.icon-btn.primary .icon-circle {
+    background: #0A66C2;
+}
+
+.icon-btn.dark .icon-circle {
+    background: #0a66c2;
+}
+
+/* Hover Effect */
+.icon-btn:hover .icon-circle {
+    transform: scale(1.1);
+}
+
+.icon-btn:hover {
+    color: #0A66C2;
+}
+
+.person-profile {
+    max-width: 100%;
+    text-align: left;
 }

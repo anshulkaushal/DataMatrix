@@ -1,0 +1,87 @@
+﻿  @using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using System.Text
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+
+     var profileImage = Model.Content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("profileImage"); 
+    var bioDetails = Model.Content.Value<string>("bioDetails"); 
+    var designation = Model.Content.Value<string>("designation");  
+
+    // Media Links
+     var linkedInTitle = Model.Content.Value<string>("linkedInTitle"); 
+    var linkedInIcon = Model.Content.Value<string>("linkedInIcon"); 
+    var linkedInUrls = Model.Content.Value<IEnumerable<Link>>("linkedInUrl"); 
+    var linkedInUrl = linkedInUrls?.FirstOrDefault();
+
+         var emailTitle = Model.Content.Value<string>("emailTitle"); 
+    var emailIcon = Model.Content.Value<string>("emailIcon"); 
+    var emailLinks = Model.Content.Value<IEnumerable<Link>>("emailLink"); 
+     var emailLink = emailLinks?.FirstOrDefault();
+
+         var phoneNumber = Model.Content.Value<string>("phoneNumber"); 
+    var phoneIcon = Model.Content.Value<string>("phoneIcon"); 
+    var phoneLinks = Model.Content.Value<IEnumerable<Link>>("phoneLink"); 
+     var phoneLink = phoneLinks?.FirstOrDefault();
+}
+
+<section class="profile-details-section">
+    <div class="container">
+    <div class="row">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="profile-sidebar col-lg-4">
+        @if(profileImage != null)
+        {
+         <img src="@profileImage.Url()" alt="personprofile" class="profile-photo">
+        }
+
+        @Html.Raw(designation.ToString().Replace("<p>", "").Replace("</p>", "")) 
+
+ <div class="profile-buttons">  
+     @if(linkedInUrl != null)
+     {
+    <a href="@linkedInUrl.Url" target="_blank" class="icon-btn primary">
+        <span class="icon-circle">
+            <i class="@linkedInIcon"></i>
+        </span>
+        <span class="btn-text">@linkedInTitle</span>
+    </a>
+     }
+     @if(emailLink != null)
+     {
+    <a href="@emailLink.Url" class="icon-btn dark">
+        <span class="icon-circle">
+            <i class="@emailIcon"></i>
+        </span>
+        <span class="btn-text">@emailTitle</span>
+    </a>
+     }
+     @if(phoneLink != null)
+     {
+    <a href="@phoneLink.Url" class="icon-btn primary">
+        <span class="icon-circle">
+            <i class="@phoneIcon"></i>
+        </span>
+        <span class="btn-text">@phoneNumber</span>
+    </a>
+     }
+
+  </div>
+</div>
+
+        <!-- RIGHT CONTENT -->
+        <div class="profile-content col-lg-8">
+           <div class=" team-profile person-profile aos-init aos-animate" data-aos="fade-up">
+             <h2>Profile</h2>           
+            </div>
+
+            @Html.Raw(bioDetails.ToString().Replace("<p>", "").Replace("</p>", ""))            
+
+        </div>
+
+    </div>
+    </div>
+</section>

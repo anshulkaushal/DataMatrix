@@ -48,7 +48,7 @@ var noIndex = seoBlock?.Value<bool>("noIndexNoFollow") ?? false;
     var metaTitle =
         !string.IsNullOrWhiteSpace(pageMetaTitle)
         ? pageMetaTitle
-        : layout?.Value<string>("defaultMetaTitle") ?? "Vyauma";
+        : layout?.Value<string>("defaultMetaTitle") ?? "DataMatrix";
 
     var metaDescription =
         !string.IsNullOrWhiteSpace(pageMetaDescription)
@@ -156,7 +156,7 @@ var noIndex = seoBlock?.Value<bool>("noIndexNoFollow") ?? false;
                 var megaMenus = menuItem.Content.Value<BlockListModel>("megaMenu");
 
                 <li class="mega-dropdown">
-                    <a href="javascript:void(0)" class="mega-toggle">
+                    <a href="@link.Url" class="mega-toggle">
                         @title <i class="bi bi-chevron-down"></i>
                     </a>
 
@@ -285,14 +285,14 @@ var noIndex = seoBlock?.Value<bool>("noIndexNoFollow") ?? false;
 
             <!-- <h1 class="sitename">iLanding</h1> -->
           </a>
-          <div class="social-links d-flex mt-4">
+          @* <div class="social-links d-flex mt-4">
               @if(socialMediaLink != null)
               {
              @Html.Raw(socialMediaLink.ToString().Replace("<p>", "").Replace("</p>", "")) 
               }
-          </div>
+          </div> *@
 
-          <div class="footer-contact pt-3">
+          <div class="footer-contact "><!--pt-3-->
               @if(socialAddress != null)
               {
            @Html.Raw(socialAddress.ToString().Replace("<p>", "").Replace("</p>", "")) 
