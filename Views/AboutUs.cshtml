@@ -1,5 +1,6 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.AboutUs>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @{
@@ -23,12 +24,20 @@
          var ourTeamHeading = Model.Value<string>("ourTeamHeading");
      var ourTeamDescriptionTop = Model.Value<string>("ourTeamDescriptionTop");
      var ourTeamDescriptionBottom = Model.Value<string>("ourTeamDescriptionBottom");
+      var founderProfile = Model.Value<BlockListModel>("founderProfile");
       var teamProfile = Model.Value<BlockListModel>("teamProfile");
 
            //Our Team 
          var ourCultureHead = Model.Value<string>("ourCultureHead");
      var ourCultureDes = Model.Value<string>("ourCultureDes");
       var ourCultureImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("ourCultureImage");
+
+      // CAT section
+        var ctaHeading = Model.Value<string>("ctaHeading");
+    var subHeading = Model.Value<string>("subHeading");
+    var ctaButtonText = Model.Value<string>("ctaButtonText");
+    var ctaButtonLinks = Model.Value<IEnumerable<Link>>("ctaButtonLink");
+    var ctaButtonLink = ctaButtonLinks?.FirstOrDefault();
 }
 
 
@@ -73,7 +82,7 @@
 
 
 <!-- Partnership Section -->
-<section class="service-why-choose">
+<section class="service-why-choose" id="partnership">
   <div class="container text-center">
     <h2 class="mb-5">@partnershipHeading</h2>
     <div class="row justify-content-center">
@@ -88,7 +97,7 @@
 </section>
 
 <!-- Our Team Section -->
-<section class="service-profile">
+<section class="service-profile" id="team-profile">
   <div class="container">
     <div class="row align-items-center">
       <!-- Right Content -->
@@ -98,6 +107,44 @@
   
      <p>@Html.Raw(ourTeamDescriptionTop.ToString().Replace("<p>", "").Replace("</p>", ""))</p>
 
+    <div class="team-profiles">
+       @if (founderProfile != null && founderProfile.Any())
+       {   
+         @foreach (var item in founderProfile)
+         {
+         var content = item.Content;
+         var image = content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("image");
+                var names = content.Value<string>("names");
+         var linkedInUrls = content.Value<IEnumerable<Link>>("linkedInUrl");
+         var linkedInUrl = linkedInUrls?.FirstOrDefault();
+         var designation = content.Value<string>("designation");
+         var shortDescription = content.Value<string>("shortDescription");
+             var profileLinks = content.Value<IEnumerable<Link>>("profileLink");
+         var profileLink = profileLinks?.FirstOrDefault();
+
+        <div class="team-profile">
+           <div class="profile-img-wrapper">
+          <img src="@image.Url()" alt="profile" />
+          @if(linkedInUrl != null)
+          {
+         <a href="@linkedInUrl.Url" target="_blank" class="linkedin-icon">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+          }           
+          </div>
+          <p class="teamnames">@names</p>
+          <p class="designation">@designation</p>
+          <p class="shortDescription" style="font-size: 12px;">@shortDescription</p>
+            @if(profileLink != null)
+          {
+          <a href="@profileLink.Url" class="view-bio-btn">View Profile</a>
+          }
+        </div>
+         }
+       }
+
+     </div>
+
   <div class="team-profiles">
        @if (teamProfile != null && teamProfile.Any())
        {   
@@ -106,13 +153,31 @@
          var content = item.Content;
          var image = content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("image");
          var designation = content.Value<string>("designation");
+         var names = content.Value<string>("names");
+         var linkedInUrls = content.Value<IEnumerable<Link>>("linkedInUrl");
+         var linkedInUrl = linkedInUrls?.FirstOrDefault();
          var shortDescription = content.Value<string>("shortDescription");
+         var profileLinks = content.Value<IEnumerable<Link>>("profileLink");
+         var profileLink = profileLinks?.FirstOrDefault();
+
 
         <div class="team-profile">
+          <div class="profile-img-wrapper">
           <img src="@image.Url()" alt="profile" />
+          @if(linkedInUrl != null)
+          {         
+          <a href="@linkedInUrl.Url" target="_blank" class="linkedin-icon">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+          }           
+          </div>
+          <p class="teamnames">@names</p>
           <p class="designation">@designation</p>
-          <p class="shortDescription">@shortDescription</p>
-
+          <p class="shortDescription" style="font-size: 12px;">@shortDescription</p>
+          @if(profileLink != null)
+          {
+          <a href="@profileLink.Url" class="view-bio-btn">View Profile</a>
+          }
         </div>
          }
        }
@@ -130,7 +195,7 @@
 
   
 <!-- Our Culture -->
-<section class="service-cta bg-light">
+<section class="service-cta ">
   <div class="container">
     <div class="row">
       <div class="col-md-6 mb-4 mb-md-0">
@@ -151,3 +216,24 @@
     </div>
   </div>
 </section>
+
+ <!-- Call To Action 2 Section -->
+    <section id="call-to-action-2" class="call-to-action-2 section dark-background">
+
+      <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-10">
+            <div class="text-center">
+              <h3>@ctaHeading</h3>
+              <p class="about-meta">@subHeading</p>
+
+             @if(ctaButtonLink != null || ctaButtonText != null )
+             {
+              <a class="cta-btn btn" href="@ctaButtonLink.Url">@ctaButtonText</a>
+             }
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Call To Action 2 Section -->
