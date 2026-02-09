@@ -43,12 +43,18 @@
 }
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section" style="@(backgroundImage != null 
-                 ? $"background-image:url({backgroundImage.Url()});" 
-                 : "")">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
+    <section id="hero" class="hero section position-relative">
+        @if(backgroundImage != null)
+       {
+          <div class="video-wrapper">
+           <video autoplay muted loop playsinline class="hero-video">
+            <source src="@backgroundImage.Url()" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        </div>
+        }
+  @* <div class="overlay"></div> *@
+      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
         <div class="row align-items-center">
           <div class="col-lg-6">
             <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
@@ -65,7 +71,7 @@
                   {
                     <a href="@buttonLink.Url" class="btn btn-primary me-0 me-sm-2 mx-1">@buttonText</a>
 
-                    <a href="@ctaLink.Url" class="btn btn-primary btn-outline me-0 me-sm-2 mx-1">@ctaText</a>
+                    <a href="#" id="openGetStarted" class="btn btn-primary btn-outline me-0 me-sm-2 mx-1">@ctaText</a>
                   }
               </div>
             </div>
@@ -199,4 +205,48 @@
 
     </section><!-- /Call To Action 2 Section -->
 
+
+
+    
+   <div id="getStartedModal" class="custom-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+
+        <h3 class="mb-3">Book a Free Consultation</h3>
+
+        @using (Html.BeginUmbracoForm("SubmitForm", "Form", FormMethod.Post, new { id = "popupForm" }))
+        {
+            <input type="hidden" name="formInfoType" value="FreeConsultation" />
+
+            <div class="row gy-3">
+
+                <div class="col-md-6">
+                    <input type="text" id="p_firstName" name="firstName" class="form-control" placeholder="First Name *">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" id="p_lastName" name="lastName" class="form-control" placeholder="Last Name *">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="email" id="p_email" name="email" class="form-control" placeholder="Email *">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" id="p_contactNumber" name="phone" class="form-control" placeholder="Contact Number *">
+                </div>
+
+                <div class="col-md-12">
+                    <textarea id="p_message" name="message" class="form-control" rows="4" placeholder="Message *"></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn-submit">Submit</button>
+                    <div id="popupServerError" class="error-text mt-2" style="display:none;"></div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
 

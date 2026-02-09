@@ -163,10 +163,16 @@ document.querySelectorAll('#navmenu a').forEach(link => {
   link.addEventListener('click', (e) => {
 
     // If link is a mega menu dropdown toggle → don't close menu
-    if (link.classList.contains('mega-toggle') || link.parentElement.classList.contains('mega-dropdown')) {
-      e.preventDefault(); // So that page does not refresh
-      return; 
-    }
+      // Allow normal redirect on desktop
+      if (window.innerWidth > 1199) return;
+
+      // Only prevent on mobile for mega toggle
+      if (link.classList.contains('mega-toggle')) {
+          e.preventDefault();
+          link.parentElement.classList.toggle('open');
+          return;
+      }
+
 
     // If it's a normal nav link → close menu
     if (document.body.classList.contains('mobile-nav-active')) {
@@ -245,14 +251,29 @@ function initMobileMegaMenu() {
 }
 
 // ========== Toggle Main Mega Menu ==========
+//document.querySelectorAll('.mega-toggle').forEach(toggle => {
+//  toggle.addEventListener('click', function (e) {
+//    if (window.innerWidth <= 1199) {
+//      e.preventDefault();
+//      this.parentElement.classList.toggle('open');
+//    }
+//  });
+//});
+
 document.querySelectorAll('.mega-toggle').forEach(toggle => {
-  toggle.addEventListener('click', function (e) {
-    if (window.innerWidth <= 1199) {
-      e.preventDefault();
-      this.parentElement.classList.toggle('open');
-    }
-  });
+    toggle.addEventListener('click', function (e) {
+
+        // Mobile → open dropdown
+        if (window.innerWidth <= 1199) {
+            e.preventDefault();
+            this.parentElement.classList.toggle('open');
+        }
+
+        // Desktop → DO NOTHING (allow redirect)
+    });
 });
+
+
 
 // ========== Handle Resize ==========
 function handleResize() {
@@ -295,3 +316,181 @@ function handleResize() {
 
 window.addEventListener('load', handleResize);
 window.addEventListener('resize', handleResize);
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector("#contactForm"); // ← use your actual form ID
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); // stop normal submit
+
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form)
+        })
+            .then(response => response.json())
+            .then(result => {
+
+                if (result.success && result.redirectUrl) {
+                    window.location.href = result.redirectUrl; // ✅ redirect
+                } else {
+                    alert(result.message || "Form submission failed.");
+                }
+
+            })
+            .catch(error => {
+                console.error("Error submitting form:", error);
+            });
+
+    });
+
+});
+
+
+
+
+// ================= HOME PAGE MODAL =================
+document.addEventListener("DOMContentLoaded", function () {
+
+    const modal = document.getElementById("getStartedModal");
+    const openBtn = document.getElementById("openGetStarted");
+
+    if (!modal || !openBtn) return; // ✅ IMPORTANT
+
+    const closeBtn = modal.querySelector(".close-modal");
+
+    openBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+    });
+
+    function closeModal() {
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+
+    closeBtn?.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("show")) {
+            closeModal();
+        }
+    });
+
+});
+
+
+// ================= HOME PAGE POPUP FORM =================
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("popupForm");
+    if (!form) return; // ✅ FIXES YOUR ERROR
+
+    const serverError = document.getElementById("popupServerError");
+
+    const fields = {
+        firstName: { el: document.getElementById("p_firstName"), message: "First name is required" },
+        lastName: { el: document.getElementById("p_lastName"), message: "Last name is required" },
+        email: {
+            el: document.getElementById("p_email"),
+            message: "Enter a valid email address",
+            regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        },
+        contactNumber: {
+            el: document.getElementById("p_contactNumber"),
+            message: "Enter a valid 10-digit contact number",
+            regex: /^\d{10}$/
+        },
+        message: { el: document.getElementById("p_message"), message: "Message is required" }
+    };
+
+    // ❗ SAFETY CHECK
+    Object.values(fields).forEach(f => {
+        if (!f.el) return;
+    });
+
+    function showError(field, msg) {
+        clearError(field);
+        field.classList.add("is-invalid");
+
+        const error = document.createElement("div");
+        error.className = "error-text";
+        error.innerText = msg;
+
+        field.closest(".col-md-6, .col-md-12")?.appendChild(error);
+    }
+
+    function clearError(field) {
+        field.classList.remove("is-invalid");
+        const container = field.closest(".col-md-6, .col-md-12");
+        container?.querySelector(".error-text")?.remove();
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        Object.values(fields).forEach(f => {
+            if (!f.el) return;
+
+            const value = f.el.value.trim();
+            clearError(f.el);
+
+            if (!value || (f.regex && !f.regex.test(value))) {
+                showError(f.el, f.message);
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    // Contact number restriction
+    fields.contactNumber.el?.addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, "").slice(0, 10);
+        clearError(this);
+    });
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        serverError.style.display = "none";
+
+        if (!validateForm()) return;
+
+        const btn = form.querySelector("button[type='submit']");
+        btn.disabled = true;
+        btn.innerText = "Sending...";
+
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    window.location.href = res.redirectUrl;
+                } else {
+                    serverError.innerText = res.message;
+                    serverError.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerText = "Submit";
+                }
+            })
+            .catch(() => {
+                serverError.innerText = "Something went wrong";
+                serverError.style.display = "block";
+                btn.disabled = false;
+                btn.innerText = "Submit";
+            });
+    });
+
+});
