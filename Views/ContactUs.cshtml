@@ -16,6 +16,8 @@
     var contactInfoHeading = Model.Value<string>("contactInfoHeading");
         var contactInfo = Model.Value<BlockListModel>("contactInfo");
 
+            var contactInfoHeading1 = Model.Value<string>("contactInfoHeading1");
+        var contactInfo1 = Model.Value<BlockListModel>("contactInfo1");
 
     // Form Info Section
       var formInfo = Model.Value<string>("formInfo");
@@ -33,9 +35,12 @@
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-4 g-lg-5">
-          <div class="col-lg-5">
-            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+        <div class="row g-4 g-lg-5 align-items-stretch" style="justify-content: center;">
+
+          <div class="col-lg-5 col-xl-4 col-md-6 d-flex">
+            <div class="info-box position-relative" data-aos="fade-up" data-aos-delay="200">
+                <img src="/img/Australia-Flag.png" class="bg-img" />
+            <div class="content-wrapper">
             @Html.Raw(contactInfoHeading.ToString().Replace("<p>", "").Replace("</p>", ""))
             <br>
        @if (contactInfo != null && contactInfo.Any())
@@ -52,35 +57,86 @@
                 </div>
                 <div class="content">
                   <h4>@infoHeading</h4>
-                  <p>@shortDescription</p>
+                  <p style="white-space: pre-line;">@shortDescription</p>
                 </div>
               </div>
                }
             }
             </div>
           </div>
+          </div>
 
-          <div class="col-lg-7">
+           <div class="col-lg-5 col-xl-4 col-md-6 d-flex">
+            <div class="info-box position-relative" data-aos="fade-up" data-aos-delay="200">
+            <img src="/img/New-Zealand-Flag.png" class="bg-img" />
+           <div class="content-wrapper">
+            @Html.Raw(contactInfoHeading1.ToString().Replace("<p>", "").Replace("</p>", ""))
+            <br>
+       @if (contactInfo1 != null && contactInfo1.Any())
+       {   
+         @foreach (var item in contactInfo1)
+         {
+         var content = item.Content;
+         var icon = content.Value<string>("icon");
+         var infoHeading = content.Value<string>("heading");
+         var shortDescription = content.Value<string>("shortDescription");
+              <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box">
+                  <i class="@icon"></i>
+                </div>
+                <div class="content">
+                  <h4>@infoHeading</h4>
+                  <p style="white-space: pre-line;">@shortDescription</p>
+                </div>
+              </div>
+               }
+            }
+            </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
             <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
                 @Html.Raw(formInfo.ToString().Replace("<p>", "").Replace("</p>", ""))    
                 
                 @using (Html.BeginUmbracoForm("SubmitForm", "Form", FormMethod.Post, new { id = "contactForm" }))
                 {
                 <div class="row gy-4">
+                    <input type="hidden" name="formInfoType" value="contactus" />
                   <div class="col-md-6">
-                    <input type="text" name="fullName" class="form-control" placeholder="Your Name" required="">
+                    <input type="text" name="firstName" class="form-control" placeholder="First Name *" required="">
+                  </div>
+
+                  <div class="col-md-6">
+                    <input type="text" name="lastName" class="form-control" placeholder="Last Name *" required="">
                   </div>
 
                   <div class="col-md-6 ">
-                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email *" required="">
+                  </div>
+
+                  <div class="col-md-6 ">
+                    <input type="text" class="form-control" name="phone" placeholder="Phone Number *" required="">
                   </div>
 
                   <div class="col-12">
-                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                      <select class="form-control service-select" name="services" required>
+                          <option value="" disabled selected hidden>Services *</option>
+                          <option value="Data Engineering">Data Engineering</option>
+                          <option value="AI & Machine Learning">AI & Machine Learning</option>
+                          <option value="Application Modernization">Application Modernization</option>
+                          <option value="Business Apps">Business Apps</option>
+                          <option value="Cloud Infrastructure & Security">Cloud Infrastructure & Security</option>
+                          <option value="Enterprise Data Analytics">Enterprise Data Analytics</option>
+                          <option value="Enterprise Integration">Enterprise Integration</option>
+                          <option value="Accelerators">Accelerators</option>
+                      </select>
                   </div>
 
+
+
                   <div class="col-12">
-                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                    <textarea class="form-control" name="message" rows="3" placeholder="Message" required=""></textarea>
                   </div>
 
                   <div class="col-12 text-center">

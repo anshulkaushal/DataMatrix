@@ -915,7 +915,6 @@ section,
       color-mix(in srgb, #0c67c4, transparent 95%) 50%,
       color-mix(in srgb, #0c67c4, transparent 98%) 25%,
       transparent 50%);
-/*  background: url(/img/hero-image.png) no-repeat top;*/
   background-size: cover;
 }
 
@@ -924,8 +923,30 @@ section,
   z-index: 1;
 }
 
+/* Video wrapper */
+.video-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* Video */
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Dark overlay ONLY on video */
+.video-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .hero .hero-content h1 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 1.5rem;
@@ -2150,7 +2171,20 @@ section,
 .service-why-choose p {
   font-weight: 500;
 }
+/*Why choose Clients*/
+.service-why-client {
+  background: #ffffff;
+}
 
+.service-why-client i {
+  font-size: 2rem;
+  color: #0d83fd;
+  margin-bottom: 10px;
+}
+
+.service-why-client p {
+  font-weight: 500;
+}
 /* CTA FORM */
 .service-cta {
   padding: 80px 0;
@@ -2165,6 +2199,11 @@ section,
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.service-client {
+    padding: 80px 0;
+    background-color: #f8f9fa;
 }
 
 .data-section {
@@ -2549,13 +2588,55 @@ section,
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
+/*.contact .info-box {
+    background-image: url(/img/Australia-Flag.png);*/
+/*    background-color: #0c67c4;*/
+    /*color: var(--contrast-color);
+    padding: 3rem;
+    border-radius: 1rem;
+    height: 100%;
+}*/
+
 .contact .info-box {
-  background-color: #0c67c4;
-  color: var(--contrast-color);
-  padding: 3rem;
-  border-radius: 1rem;
-  height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 3rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+
+
+    /* Background image */
+    .contact .info-box .bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: blur(8px);
+        transform: scale(1.1);
+        z-index: 1;
+    }
+
+    /* Content above image */
+    .contact .info-box .content-wrapper {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Optional dark overlay */
+    .contact .info-box::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
 
 .contact .info-box h3 {
   color: var(--contrast-color);
@@ -2595,8 +2676,8 @@ section,
 }
 
 .contact .info-item .icon-box {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: color-mix(in srgb, var(--contrast-color), transparent 85%);
   border-radius: 50%;
   display: flex;
@@ -2607,7 +2688,7 @@ section,
 }
 
 .contact .info-item .icon-box i {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--contrast-color);
 }
 
@@ -2617,7 +2698,7 @@ section,
 
 .contact .info-item .content h4 {
   color: var(--contrast-color);
-  font-size: 1.25rem;
+  font-size: 1rem;
   margin-bottom: 0.5rem;
   font-weight: 700;
 }
@@ -3736,3 +3817,227 @@ button:focus {
     max-width: 100%;
     text-align: left;
 }
+
+.flag {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+
+    /* When user selects real option → dark text */
+    .service-select:valid {
+        color: #212529;
+    }
+
+    /* Focus style same as other inputs */
+    .service-select:focus {
+        box-shadow: none;
+        border-color: #0d6efd;
+    }
+
+.service-select {
+    color: #6c757d !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.service-select {
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%236c757d' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    padding-right: 45px;
+}
+
+
+
+/*Thank You page */
+.thankyou-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+    .thankyou-page .thankyou-title {
+        font-size: clamp(28px, 5vw, 60px);
+        line-height: clamp(1.2, 1.4, 1.35);
+        font-weight: 600;
+    }
+
+.thankyou-dec {
+    font-size: clamp(14px, 2vw, 20px);
+    line-height: clamp(1.5, 1.7, 1.9);
+    margin: 30px auto 40px;
+    max-width: 1000px;
+}
+
+.thankyou-social-title {
+    font-size: clamp(16px, 2.2vw, 22px);
+    font-weight: 600;
+    margin: 40px 0 20px;
+}
+
+
+.thankyou-page .icon-circle {
+    width: clamp(160px, 30vw, 270px);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.thankyou-page .social {
+    gap: 28px;
+}
+
+    .thankyou-page .social a {
+        width: 45px;
+        height: 45px;
+        background: #000;
+        color: #1e88ff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+        .thankyou-page .social a:hover {
+            background: #1e88ff;
+            color: #fff;
+        }
+
+
+/* popup form css   */
+
+/* ===== Custom Modal Overlay ===== */
+#getStartedModal.custom-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+    z-index: 9999;
+}
+
+    /* Show modal */
+
+    #getStartedModal.custom-modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* ===== Modal Box ===== */
+
+/* Modal Box */
+#getStartedModal .modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 650px;
+    padding: 35px;
+    border-radius: 16px;
+    position: relative;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.35s ease;
+}
+
+/* Animate when show */
+#getStartedModal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+    /* Animate modal box */
+
+#getStartedModal.show .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* ===== Close Button ===== */
+
+#getStartedModal .close-modal {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s ease;
+}
+
+
+    #getStartedModal .close-modal:hover {
+        color: #000;
+    }
+
+/* ===== Popup Title ===== */
+
+#getStartedModal .modal-content h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* ===== Input consistency ===== */
+
+#getStartedModal .modal-content .form-control {
+    /* height: 48px; */
+    font-size: 15px;
+    border-radius: 0;
+}
+
+
+#getStartedModal .modal-content textarea.form-control {
+    height: auto;
+}
+
+/* ===== Button ===== */
+
+#getStartedModal .modal-content button {
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* ===== Error text ===== */
+.error-text {
+    color: #dc3545;
+    font-size: 13px;
+}
+
+
+.btn-submit {
+    color: var(--contrast-color);
+    background: var(--accent-color);
+    font-family: var(--heading-font);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 8px 40px !important;
+    border-radius: 50px;
+    transition: 0.5s;
+    border: 0;
+}
+
+    .btn-submit:hover {
+        background: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+    }

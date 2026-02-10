@@ -43,12 +43,13 @@ namespace DataMatrix.Controllers
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public IActionResult SubmitForm(string fullName, string email, string subject, string message)
+        public IActionResult SubmitForm(string firstName, string lastName, string email, string phone, string services, string message, string formInfoType)
         {
 
-            if (string.IsNullOrWhiteSpace(fullName) ||
+            if (string.IsNullOrWhiteSpace(firstName) ||
+                string.IsNullOrWhiteSpace(lastName) ||
                 string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(subject) ||
+                string.IsNullOrWhiteSpace(phone) ||
                 string.IsNullOrWhiteSpace(message))
             {
                 return Json(new
@@ -86,7 +87,8 @@ namespace DataMatrix.Controllers
              url = thankYouLink?.FirstOrDefault()?.Url;
             
 
-            _formService.SaveFormData(fullName, email, subject, message);
+            _formService.SaveFormData(firstName, lastName, email, phone, services, message, formInfoType);
+             var fullName = $"{firstName} {lastName}";
 
             var templates = _configuration["Umbraco:CMS:EmailTemplates:ThankYouMail"];
 
@@ -100,7 +102,8 @@ namespace DataMatrix.Controllers
                 template = template
                     .Replace("{{FullName}}", fullName)
                     .Replace("{{Email}}", email)
-                    .Replace("{{Subject}}", subject)
+                    .Replace("{{Phone}}", phone)
+                    .Replace("{{Services}}", services)
                     .Replace("{{Message}}", message.Replace("\n", "<br/>"));
             }
             // Send email
@@ -110,7 +113,7 @@ namespace DataMatrix.Controllers
             return Json(new
             {
                 success = true,
-                message = "Thank you for contacting us. Our team will get back to you shortly."
+                redirectUrl = url
             });
 
 

@@ -1,0 +1,84 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Clients>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+
+	     var heading = Model.Value<string>("heading");
+     var clientServices = Model.Value<string>("clientServices");
+
+
+     var headline = Model.Value<string>("headline");
+     var description = Model.Value<string>("description");
+      var sideImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("sideImage");
+
+
+              var ctaHeading = Model.Value<string>("ctaHeading");
+    var subHeading = Model.Value<string>("subHeading");
+    var ctaButtonText = Model.Value<string>("ctaButtonText");
+    var ctaButtonLinks = Model.Value<IEnumerable<Link>>("ctaButtonLink");
+    var ctaButtonLink = ctaButtonLinks?.FirstOrDefault();
+}
+
+<!-- Client Section -->
+<section class="service-why-client">
+  <div class="container text-center">
+    <h2 class="mb-5">@heading</h2>
+    <div class="row justify-content-center">
+      <div class=" col-lg-10 col-sm-12">
+           @if(clientServices != null)
+          {
+           @Html.Raw(clientServices.ToString().Replace("<p>", "").Replace("</p>", "")) 
+          }
+      </div>
+    </div>
+  </div>
+</section>
+
+ 
+
+<!--  Why Clients Choose -->
+<section class="service-client ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <h2>@headline</h2>
+        @if(description != null)
+        {
+        @Html.Raw(description.ToString().Replace("<p>", "").Replace("</p>", ""))
+        }
+      </div>
+      <div class="col-md-6">
+      <div class="col-md-12 text-center service-hero-left mb-4 mb-md-0">
+     @if(sideImage != null)
+     {
+      <img src="@sideImage.Url()" class="img-fluid" alt="Data Pipeline">
+     }
+      </div>  
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- Call To Action 2 Section -->
+    <section id="call-to-action-2" class="call-to-action-2 section dark-background">
+
+      <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-10">
+            <div class="text-center">
+              <h3>@ctaHeading</h3>
+              <p class="about-meta">@subHeading</p>
+
+             @if(ctaButtonLink != null || ctaButtonText != null )
+             {
+              <a class="cta-btn btn" href="@ctaButtonLink.Url">@ctaButtonText</a>
+             }
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Call To Action 2 Section -->

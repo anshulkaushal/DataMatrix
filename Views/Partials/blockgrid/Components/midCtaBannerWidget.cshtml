@@ -24,9 +24,15 @@
      <h2 class="text-white">@heading</h2>
      <p class="small">@subHeading</p>
      <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+         @if(cTA1Link != null)
+         {
        <a class="btn" href="@cTA1Link.Url">@cTA1Text</a>
+         }
        <!-- <a class="btn btn-outline-light btn-lg" href="#">Download Service Deck</a> -->
+       @if(cTA2Link != null)
+       {
        <a class="btn " href="@cTA2Link.Url">@cTA2Text</a>
+       }
      </div>
      </div>
    </section>
