@@ -1,0 +1,77 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.CoreCapabilities>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "MasterLayout.cshtml";
+
+	 // Hero Section
+    var heading = Model.Value<string>("heading");
+    var description = Model.Value<string>("description");
+    var heroImage = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("heroImage");
+
+    	 // Core  Section
+    var coreHeading = Model.Value<string>("coreHeading");
+    var cardItem = Model.Value<BlockListModel>("cardItem");
+
+        var bgcontent = Model.Value<string>("content");
+
+}
+
+   <!-- Hero Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "heroWidget") 
+
+      <!-- core  Capabilities Section -->
+<section class="capabilities-section">
+    <div class="container">
+        <div class="section-header">
+             @Html.Raw(coreHeading.ToString().Replace("<p>", "").Replace("</p>", ""))  
+        </div>
+
+        <div class="capabilities-grid">
+       @if (cardItem != null && cardItem.Any())
+         {   
+           @foreach (var item in cardItem)
+            {
+             var content = item.Content;
+             var icon = content.Value<string>("icon");
+             var headings = content.Value<string>("heading");
+             var outcome = content.Value<string>("outcome");
+
+            <!-- Cards -->
+            <div class="cap-card">
+                <div class="icon-box">
+                    <i class="@icon"></i>
+                </div>
+
+               @Html.Raw(headings.ToString().Replace("<p>", "").Replace("</p>", "")) 
+
+                <div class="outcome-box">
+                    @Html.Raw(outcome.ToString().Replace("<p>", "").Replace("</p>", "")) 
+                </div>
+            </div>          
+               }
+          }
+        </div>
+    </div>
+</section>
+
+
+<section class="why-choose-section">
+  <div class="container text-center">
+      <div class="why-content">
+         @Html.Raw(bgcontent.ToString().Replace("<p>", "").Replace("</p>", "")) 
+      </div>
+  </div>
+</section>
+
+
+
+
+        <!-- Property Model Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "propertyModel") 
+
+     
+        <!-- CTA Section -->
+     @await Html.GetBlockGridHtmlAsync(Model, "ctaWidget") 
