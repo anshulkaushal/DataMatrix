@@ -27,7 +27,7 @@
      var socialAddress = layout?.Value<string>("socialAddress");
      var pageLinkS = layout?.Value<string>("pageLinkS");
      var contactDetails = layout?.Value<string>("contactDetails");
-     var copyRightText = layout?.Value<string>("copyRightText");
+     // var copyRightText = layout?.Value<string>("copyRightText");
      var privacyPolicyHeading = layout?.Value<string>("privacyPolicyHeading");
      var privacyPolicyDescription = layout?.Value<string>("privacyPolicyDescription");
      var termsOfUseHeading = layout?.Value<string>("termsOfUseHeading");
@@ -59,6 +59,14 @@ var noIndex = seoBlock?.Value<bool>("noIndexNoFollow") ?? false;
         !string.IsNullOrWhiteSpace(pageMetaKeywords)
         ? pageMetaKeywords
         : layout?.Value<string>("defaultMetaKeywords");
+
+        // copy right text
+           var copyRightText = layout?.Value<string>("copyRightText");
+
+    if (!string.IsNullOrEmpty(copyRightText))
+    {
+        copyRightText = copyRightText.Replace("{{year}}", DateTime.Now.Year.ToString());
+    }
 }
 
 <!DOCTYPE html>

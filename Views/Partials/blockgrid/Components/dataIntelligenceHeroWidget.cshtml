@@ -16,7 +16,7 @@
     var sideImage = Model.Content.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("sideImage");   
 }
 
-    <!-- HERO -->
+    <!-- HERO Section -->
     <section  id="hero" class="service-hero hero section" data-aos="fade-up">
       <div class="container">
       <div class="row align-items-center">
@@ -29,7 +29,7 @@
             <a class="btn btn-primary me-2 "             
               href="@cTA1Link.Url">@cTA1Text</a>
               }
-              @if(cTA2Link != null || cTA2Text != null)
+              @if(cTA2Link != null && cTA2Text != null)
               {
             <a class="btn btn-primary me-2" href="@cTA2Link.Url">@cTA2Text</a>
               }
@@ -43,3 +43,5 @@
       </div>
       </div>
     </section>
+
+
